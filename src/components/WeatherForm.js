@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const WeatherForm = ({ fetchWeather, savedCities, onCityClick }) => {
+const WeatherForm = ({ fetchWeather, savedCities, favoriteCities, onCityClick, onToggleFavorite }) => {
   const [city, setCity] = useState('');
 
   const handleSubmit = (e) => {
@@ -11,6 +11,10 @@ const WeatherForm = ({ fetchWeather, savedCities, onCityClick }) => {
 
   const handleCityClick = (cityName) => {
     onCityClick(cityName); 
+  };
+
+  const handleFavoriteClick = (cityName) => {
+    onToggleFavorite(cityName); 
   };
 
   return (
@@ -26,7 +30,6 @@ const WeatherForm = ({ fetchWeather, savedCities, onCityClick }) => {
         <button type="submit">Get Weather</button>
       </form>
 
-      
       {savedCities.length > 0 && (
         <div className="saved-cities">
           <h4>Recently Searched:</h4>
@@ -34,6 +37,18 @@ const WeatherForm = ({ fetchWeather, savedCities, onCityClick }) => {
             {savedCities.map((city, index) => (
               <li key={index} onClick={() => handleCityClick(city)}>
                 {city}
+                <button
+                  onClick={() => handleFavoriteClick(city)}
+                  style={{
+                    background: favoriteCities.includes(city) ? 'gold' : '#ccc',
+                    border: 'none',
+                    padding: '5px',
+                    marginLeft: '10px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {favoriteCities.includes(city) ? 'Unfavorite' : 'Favorite'}
+                </button>
               </li>
             ))}
           </ul>
